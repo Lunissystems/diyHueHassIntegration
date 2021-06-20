@@ -1,53 +1,42 @@
-"""Platform for light integration."""
+import json
+from homeassistant.components.yeelight import DATA_CONFIG_ENTRIES
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import DOMAIN, HomeAssistant
 import logging
-
 import voluptuous as vol
 import requests
 
+from homeassistant.components import light
+
 import homeassistant.helpers.config_validation as cv
 
-# Import the device class from the component that you want to support
-from homeassistant.components.light import ATTR_BRIGHTNESS, PLATFORM_SCHEMA, LightEntity
-from homeassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
+from homeassistant.components.light import LightEntity
 
 _LOGGER = logging.getLogger(__name__)
 
-# Validation of the user's configuration
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
-    {
-        vol.Required(CONF_HOST): cv.string,
-        vol.Optional(CONF_USERNAME, default="admin"): cv.string,
-        vol.Optional(CONF_PASSWORD): cv.string,
-    }
-)
+
+async def async_setup_entry(
+    hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities
+):
+    device = hass.data[DOMAIN][DATA_CONFIG_ENTRIES][config_entry.entry_id]
+    _LOGGER.debug("Adding %s", device.name)
+
+    lights = []
+    lights.append(diyHueLight(device, config_entry, LightEntity))
+    async_add_entities(lights, True)
 
 
-def setup_platform(hass, config, add_entities, discovery_info=None):
-    """Set up the Awesome Light platform."""
-    # Assign configuration variables.
-    # The configuration check takes care they are present.
-    host = config[CONF_HOST]
-    username = config[CONF_USERNAME]
-    password = config.get(CONF_PASSWORD)
+class diyHueLight(LightEntity, ConfigEntry):
+    def __init__(self, device, config_entry, light):
 
-    # Setup connection with devices/cloud
-
-    # Verify that passed in configuration works
-    return True
-    # Add devices
-    """add_entities(AwesomeLight(light) for light in hub.lights())"""
-
-
-class AwesomeLight(LightEntity):
-    def __init__(self, light):
-        """Initialize an AwesomeLight."""
         self._light = light
-        self._name = light.name
+        self._name = config_entry.name
         self._state = None
         self._brightness = None
+
         """diyHueVariables"""
-        self.lights = 3
-        self.IP = light.name
+        self.lights = config_entry.number_of_lights
+        self.IP = config_entry.ipaddress
         self.addr = "http://" + self.IP + "/state"
 
     @property
@@ -63,20 +52,22 @@ class AwesomeLight(LightEntity):
         return self._state
 
     def turn_on(self, **kwargs):
-        para = {"on": true, "bri": 255, "xy": [0.53, 0, 21]}
-        requests.post(url=self.addr, params=para)
-        self._light.turn_on()
+        requests.post(
+            url=self.addr, params={"on": True, "bri": 255, "xy": [0.53, 0, 21]}
+        )
 
     def turn_off(self, **kwargs):
-        ara = {"on": false, "bri": 0, "xy": [0.53, 0, 21]}
-        requests.post(url=self.addr, params=ara)
-        self._light.turn_off()
+        requests.post(
+            url=self.addr, params={"on": False, "bri": 0, "xy": [0.53, 0, 21]}
+        )
 
     def update(self):
-        """Fetch new state data for this light.
+        """Fetch new state data for this light. This is the only method that should fetch new data for Home Assistant."""
+        status = requests.get(url=self.addr)
+        result = status.json()
+        json.loads(result)
 
-        This is the only method that should fetch new data for Home Assistant.
-        """
         self._light.update()
-        self._state = self._light.is_on()
-        self._brightness = self._light.brightness
+
+        self._state = result["on"]
+        self._brightness = result["bri"]

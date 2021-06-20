@@ -1,11 +1,4 @@
-# Awesome Lights
-
-This integration shows how you would go ahead and integrate a physical light into Home Assistant.
-
-If you use this integration as a template, make sure you tweak the following places:
-
- - `manifest.json`: update the requirements to point at your Python library
- - `light.py`: update the code to interact with your library
+# DIY Hue Integration
 
 ### Installation
 
