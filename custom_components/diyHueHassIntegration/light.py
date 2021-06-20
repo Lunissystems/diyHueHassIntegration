@@ -26,7 +26,7 @@ async def async_setup_entry(
     async_add_entities(lights, True)
 
 
-class diyHueLight(LightEntity, ConfigEntry):
+class diyHueLight(LightEntity):
     def __init__(self, device, config_entry, light):
 
         self._light = light
