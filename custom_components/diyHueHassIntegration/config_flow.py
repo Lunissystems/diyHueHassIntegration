@@ -25,7 +25,7 @@ class ExampleConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(self, user_input=None):
         errors = {}
-
+        valid = True
         if user_input is not None:
             try:
                 host = user_input["ipaddress"]
