@@ -29,7 +29,7 @@ class ExampleConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             try:
                 host = user_input["ipaddress"]
-                valid = self._async_try_connect(host)
+                valid = await self._async_try_connect(host)
             except CannotConnect:
                 errors["base"] = "cannot_connect"
                 _LOGGER.error("Unable to connect to " + user_input["ipaddress"])
