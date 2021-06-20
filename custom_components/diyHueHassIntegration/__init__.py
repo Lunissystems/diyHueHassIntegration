@@ -27,7 +27,7 @@ class diyHueEntity:
 
         self._state = None
         self.lights = entry.data.get("number_of_lights")
-        self.IP = entry.data.get("ipaddress")
+        self.IP: str = entry.data.get("ipaddress")
         self.addr = "http://" + self.IP + "/state"
 
     def turn_on(self):
