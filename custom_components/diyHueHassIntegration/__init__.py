@@ -15,24 +15,19 @@ async def async_setup(hass: HomeAssistant, config_entry):
     return True
 
 
-async def async_setup_entry(hass: HomeAssistant, config_entry):
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(config_entry, "light")
-    )
-
-    device = diyHueEntity(config_entry)
+    device = diyHueEntity(entry)
 
     return True
 
 
 class diyHueEntity:
-    def __init__(self, config):
+    def __init__(self, entry: ConfigEntry):
 
-        self._config = config
         self._state = None
-        self.lights = config.number_of_lights
-        self.IP = config.ipaddress
+        self.lights = entry.data.get("number_of_lights")
+        self.IP = entry.data.get("ipaddress")
         self.addr = "http://" + self.IP + "/state"
 
     def turn_on(self):

@@ -27,16 +27,16 @@ async def async_setup_entry(
 
 
 class diyHueLight(diyHueHassIntegration.diyHueEntity, LightEntity):
-    def __init__(self, device, config_entry, light):
+    def __init__(self, device, config_entry: ConfigEntry, light):
 
         self._light = light
-        self._name = config_entry.name
+        self._name = config_entry.data.get("name")
         self._state = None
         self._brightness = None
 
         """diyHueVariables"""
-        self.lights = config_entry.number_of_lights
-        self.IP = config_entry.ipaddress
+        self.lights = config_entry.data.get("number_of_lights")
+        self.IP = config_entry.data.get("ipaddress")
         self.addr = "http://" + self.IP + "/state"
 
     @property
