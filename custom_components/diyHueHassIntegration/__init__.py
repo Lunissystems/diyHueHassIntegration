@@ -18,8 +18,6 @@ async def async_setup(hass: HomeAssistant, config):
 
 async def async_setup_entry(hass, config_entry):
 
-    device = hass.data[DOMAIN][config_entry.entry_id]
-
     return True
 
 
