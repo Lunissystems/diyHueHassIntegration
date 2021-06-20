@@ -7,8 +7,8 @@
           "description": "Add a new DiyHue Light via its IPV4 address",
           "data": {
             "host": "Host",
-            "serialnumber": "Serialnumber",
-            "name": "Name",
+            "Serialnumber": "Serialnumber",
+            "Name": "Name",
             "ipaddress": "IPV4 Address",
             "number_of_lights": "Number of indiv. lights"
           }
