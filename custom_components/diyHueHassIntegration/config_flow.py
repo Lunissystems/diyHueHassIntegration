@@ -25,17 +25,17 @@ class ExampleConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(self, user_input=None):
         errors = {}
-        valid = True
+        # valid = True
         if user_input is not None:
-            try:
-                host = user_input["ipaddress"]
-                valid = await self._async_try_connect(host)
-            except CannotConnect:
-                errors["base"] = "cannot_connect"
-                _LOGGER.error("Unable to connect to " + user_input["ipaddress"])
-                return self.async_abort(reason="cannot_connect")
+            # try:
+            # host = user_input["ipaddress"]
+            # valid = await self._async_try_connect(host)
+            # except CannotConnect:
+            # errors["base"] = "cannot_connect"
+            # _LOGGER.error("Unable to connect to " + user_input["ipaddress"])
+            # return self.async_abort(reason="cannot_connect")
 
-        if valid:
+            # if valid:
             await self.async_set_unique_id(user_input["serialnumber"])
             self._abort_if_unique_id_configured()
             _LOGGER.debug(
