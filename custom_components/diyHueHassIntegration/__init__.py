@@ -12,15 +12,22 @@ CONF_NAME = "name"
 
 async def async_setup(hass: HomeAssistant, config_entry):
 
+    return True
+
+
+async def async_setup_entry(hass: HomeAssistant, config_entry):
+
     hass.async_create_task(
         hass.config_entries.async_forward_entry_setup(config_entry, "light")
     )
+
+    device = diyHueEntity(config_entry)
 
     return True
 
 
 class diyHueEntity:
-    def __init__(self, device, config):
+    def __init__(self, config):
 
         self._config = config
         self._state = None
