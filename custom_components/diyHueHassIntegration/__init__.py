@@ -16,7 +16,7 @@ async def async_setup(hass: HomeAssistant, config):
     return True
 
 
-async def async_setup_entry(hass, config_entry):
+async def async_setup_entry(hass, config_entry, async_add_devices):
 
     device = hass.data[DOMAIN][config_entry.entry_id]
 

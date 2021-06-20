@@ -4,6 +4,7 @@ from homeassistant.core import DOMAIN, HomeAssistant
 import logging
 import voluptuous as vol
 import requests
+import diyHueHassIntegration
 
 from homeassistant.components import light
 
@@ -15,17 +16,17 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities
+    hass: HomeAssistant, config_entry: ConfigEntry, async_add_devices
 ):
     device = hass.data[DOMAIN][config_entry.entry_id]
     _LOGGER.debug("Adding %s", device.name)
 
     lights = []
     lights.append(diyHueLight(device, config_entry, LightEntity))
-    async_add_entities(lights, True)
+    async_add_devices(lights)
 
 
-class diyHueLight(LightEntity):
+class diyHueLight(diyHueHassIntegration.diyHueEntity, LightEntity):
     def __init__(self, device, config_entry, light):
 
         self._light = light
