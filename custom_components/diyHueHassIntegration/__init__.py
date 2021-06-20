@@ -1,5 +1,5 @@
 from homeassistant.components import light
-from Test.light import diyHueLight
+from . import diyHueLight
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.const import CONF_LIGHTS, CONF_NAME
