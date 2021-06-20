@@ -16,14 +16,14 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: HomeAssistant, config_entry: ConfigEntry, async_add_devices
-):
+    hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities
+) -> None:
     device = hass.data[DOMAIN][config_entry.entry_id]
     _LOGGER.debug("Adding %s", device.name)
 
     lights = []
     lights.append(diyHueLight(device, config_entry, LightEntity))
-    async_add_devices(lights)
+    async_add_entities(lights, True)
 
 
 class diyHueLight(diyHueHassIntegration.diyHueEntity, LightEntity):
