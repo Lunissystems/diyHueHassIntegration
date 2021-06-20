@@ -16,11 +16,6 @@ async def async_setup(hass: HomeAssistant, config):
     return True
 
 
-async def async_setup_entry(hass, config_entry):
-
-    return True
-
-
 class diyHueEntity:
     def __init__(self, device, config):
 
