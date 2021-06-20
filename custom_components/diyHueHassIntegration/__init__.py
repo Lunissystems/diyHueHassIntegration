@@ -10,8 +10,11 @@ DOMAIN = "diyHueHassIntegration"
 CONF_NAME = "name"
 
 
-async def async_setup(hass: HomeAssistant, config):
-    conf = config.get(DOMAIN, {})
+async def async_setup(hass: HomeAssistant, config_entry):
+
+    hass.async_create_task(
+        hass.config_entries.async_forward_entry_setup(config_entry, "light")
+    )
 
     return True
 
