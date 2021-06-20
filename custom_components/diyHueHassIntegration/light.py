@@ -1,5 +1,4 @@
 import json
-from homeassistant.components.yeelight import DATA_CONFIG_ENTRIES
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import DOMAIN, HomeAssistant
 import logging
@@ -18,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup_entry(
     hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities
 ):
-    device = hass.data[DOMAIN][DATA_CONFIG_ENTRIES][config_entry.entry_id]
+    device = hass.data[DOMAIN][config_entry.entry_id]
     _LOGGER.debug("Adding %s", device.name)
 
     lights = []
