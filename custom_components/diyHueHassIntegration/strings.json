@@ -2,7 +2,7 @@
     "title": "DiyHue Light",
     "config": {
       "step": {
-        "init": {
+        "user": {
           "title": "Add DiyHue light",
           "description": "Add a new DiyHue Light via its IPV4 address",
           "data": {

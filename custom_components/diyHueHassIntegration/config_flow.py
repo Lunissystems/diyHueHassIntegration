@@ -61,7 +61,7 @@ class ExampleConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             vol.Optional("number_of_lights", description={"suggested_value": 1}): int,
         }
         return self.async_show_form(
-            step_id="init", data_schema=vol.Schema(data_schema), errors=errors
+            step_id="user", data_schema=vol.Schema(data_schema), errors=errors
         )
 
 
