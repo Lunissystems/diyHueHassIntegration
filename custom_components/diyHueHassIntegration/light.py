@@ -36,8 +36,8 @@ class diyHueLight(diyHueHassIntegration.diyHueEntity, LightEntity):
 
         """diyHueVariables"""
         self.lights = config_entry.data.get("number_of_lights")
-        self.IP: str = config_entry.data.get("ipaddress")
-        self.addr = "http://" + self.IP + "/state"
+        self.IP = config_entry.data.get("ipaddress")
+        self.addr = "http://" + str(self.IP) + "/state"
 
     @property
     def name(self):
